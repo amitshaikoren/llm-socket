@@ -1,4 +1,6 @@
 import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
+import { existsSync } from "node:fs";
+import { extname, join } from "node:path";
 
 /**
  * Launch a provider CLI.
@@ -24,17 +26,49 @@ export function spawnCli(
     windowsHide: true,
   };
 
+  if (process.platform === "win32") binary = resolveWindowsShim(binary);
+
   if (process.platform === "win32" && /\.(cmd|bat)$/i.test(binary)) {
     const quoted = [binary, ...args]
       .map((a) => `"${a.replace(/"/g, '""')}"`)
       .join(" ");
-    return spawn("cmd.exe", ["/d", "/s", "/c", quoted], {
+    // `/s` strips the first and last quote of the line, so the whole line gets
+    // one more pair; without it `"x.cmd" "arg"` reaches cmd as `x.cmd" "arg`.
+    return spawn("cmd.exe", ["/d", "/s", "/c", `"${quoted}"`], {
       ...options,
       windowsVerbatimArguments: true,
     }) as ChildProcessWithoutNullStreams;
   }
 
   return spawn(binary, args, options) as ChildProcessWithoutNullStreams;
+}
+
+/**
+ * Find the .cmd/.bat a bare command name stands for, when nothing better does.
+ *
+ * Node's PATH lookup on Windows only tries .com and .exe, so a CLI installed
+ * solely as an npm shim — `codex` is — fails with ENOENT under its bare name.
+ * An .exe anywhere on PATH still wins, as it did before: `claude` has both a
+ * claude.exe and a claude.cmd wrapper, and the .exe is the one that was always
+ * run. Anything already a path, or already carrying an extension, is left as is.
+ */
+export function resolveWindowsShim(
+  binary: string,
+  pathVar = process.env["PATH"] ?? process.env["Path"] ?? "",
+): string {
+  if (/[\\/]/.test(binary) || extname(binary)) return binary;
+  const dirs = pathVar.split(";").filter(Boolean);
+  const find = (exts: string[]) => {
+    for (const dir of dirs) {
+      for (const ext of exts) {
+        const candidate = join(dir, binary + ext);
+        if (existsSync(candidate)) return candidate;
+      }
+    }
+    return undefined;
+  };
+  if (find([".com", ".exe"])) return binary;
+  return find([".cmd", ".bat"]) ?? binary;
 }
 
 /** Split a JSONL buffer into whole lines, returning the unconsumed remainder. */

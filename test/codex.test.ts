@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 import { authHeaders, readSse, startTestServer, testConfig, type TestServer } from "./helpers.ts";
 import { buildCodexPlan, seedPrompt } from "../src/codex/args.ts";
 import { readSteps } from "../src/codex/rollout.ts";
+import { resolveWindowsShim } from "../src/agent/spawn.ts";
 import { billed } from "../src/core/usage.ts";
 import type { Config } from "../src/core/config.ts";
 import type { SessionClass } from "../src/core/types.ts";
@@ -61,6 +62,22 @@ function replyOf(body: Record<string, unknown>): string {
 }
 
 describe("codex command line", () => {
+  it("finds the npm .cmd shim behind a bare name, but still prefers an .exe", () => {
+    // Node's own PATH search on Windows never tries .cmd, which is all an npm
+    // install of codex leaves behind — so plain `codex` failed with ENOENT.
+    const shims = mkdtempSync(join(tmpdir(), "socket-test-shims-"));
+    const exes = mkdtempSync(join(tmpdir(), "socket-test-exes-"));
+    writeFileSync(join(shims, "codex.cmd"), "");
+    writeFileSync(join(shims, "claude.cmd"), "");
+    writeFileSync(join(exes, "claude.exe"), "");
+    const path = `${shims};${exes}`;
+
+    assert.equal(resolveWindowsShim("codex", path), join(shims, "codex.cmd"));
+    assert.equal(resolveWindowsShim("claude", path), "claude");
+    assert.equal(resolveWindowsShim("missing", path), "missing");
+    assert.equal(resolveWindowsShim("C:\\tools\\codex", path), "C:\\tools\\codex");
+  });
+
   it("puts every option ahead of the resume subcommand and the prompt last", () => {
     const cfg = codexConfig();
     const scratchDir = mkdtempSync(join(tmpdir(), "socket-test-plan-"));
