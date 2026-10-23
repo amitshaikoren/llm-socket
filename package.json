@@ -1,13 +1,14 @@
 {
-  "name": "claude-socket",
+  "name": "llm-socket",
   "version": "0.1.0",
   "type": "module",
-  "description": "Point any OpenAI or Anthropic client at your own Claude Code install, with per-tool-call token accounting.",
+  "description": "Point any OpenAI or Anthropic client at your own Claude Code or Codex install, with per-tool-call token accounting.",
   "keywords": [
     "claude",
     "claude-code",
     "anthropic",
     "openai",
+    "codex",
     "openai-compatible",
     "openai-api",
     "llm",
@@ -16,13 +17,13 @@
     "token-counting",
     "cli"
   ],
-  "homepage": "https://github.com/amitshaikoren/claude-socket#readme",
+  "homepage": "https://github.com/amitshaikoren/llm-socket#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amitshaikoren/claude-socket.git"
+    "url": "git+https://github.com/amitshaikoren/llm-socket.git"
   },
   "bugs": {
-    "url": "https://github.com/amitshaikoren/claude-socket/issues"
+    "url": "https://github.com/amitshaikoren/llm-socket/issues"
   },
   "engines": {
     "node": ">=24.0.0"
@@ -36,8 +37,8 @@
     "access": "public"
   },
   "bin": {
-    "claude-socket": "./src/index.ts",
-    "claude-socket-cli": "./src/cli.ts"
+    "llm-socket": "./src/index.ts",
+    "llm-socket-cli": "./src/cli.ts"
   },
   "scripts": {
     "start": "node src/index.ts",

@@ -11,7 +11,7 @@ import { isMode, isProvider, MODES, PROVIDERS } from "./core/types.ts";
 
 const execFileAsync = promisify(execFile);
 
-const USAGE = `claude-socket - an OpenAI/Anthropic-compatible API in front of the Claude Code CLI
+const USAGE = `llm-socket - an OpenAI/Anthropic-compatible API in front of the Claude Code and Codex CLIs
 
 Usage: node src/index.ts [options]
 
@@ -230,7 +230,7 @@ async function main(): Promise<void> {
 
   const origin = `http://${shown}:${cfg.server.port}`;
   process.stdout.write(
-    `\nclaude-socket listening on ${base}\n` +
+    `\nllm-socket listening on ${base}\n` +
       `  API key      ${key}\n` +
       `  dashboard    ${origin}/ui\n` +
       `  default      ${cfg.defaults.provider} mode=${cfg.defaults.mode} model=${cfg.defaults.model}\n` +

@@ -206,7 +206,7 @@ export class CodexProcess implements AgentProcess {
   /** Build the command for this turn, start it, and write the prompt to stdin. */
   #spawn(content: ContentBlock[]): void {
     const first = this.sessionId === null;
-    const scratchDir = mkdtempSync(join(tmpdir(), "claude-socket-codex-"));
+    const scratchDir = mkdtempSync(join(tmpdir(), "llm-socket-codex-"));
     this.#scratchDirs.push(scratchDir);
 
     // Images have to be files on disk before the command that names them can be

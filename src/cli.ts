@@ -18,7 +18,7 @@ const C = {
   cyan: "\x1b[36m",
 };
 
-const USAGE = `claude-socket CLI
+const USAGE = `llm-socket CLI
 
 Usage: node src/cli.ts <command> [options]
 
@@ -124,7 +124,7 @@ async function cmdStatus(options: Options): Promise<void> {
   const uptimeText = uptime < 3600 ? `${Math.floor(uptime / 60)}m` : `${Math.floor(uptime / 3600)}h`;
 
   stdout.write(
-    `${C.bold}claude-socket${C.reset} ${C.green}${health.status}${C.reset}  ${C.dim}${options.url}${C.reset}\n\n` +
+    `${C.bold}llm-socket${C.reset} ${C.green}${health.status}${C.reset}  ${C.dim}${options.url}${C.reset}\n\n` +
       `  default      ${stats.config.defaultMode} · ${stats.config.defaultModel}\n` +
       `  sessions     ${stats.sessions.length} live, max ${stats.config.maxSessions}, reuse ${stats.config.reuse ? "on" : "off"}\n` +
       `  uptime       ${uptimeText}\n\n` +
