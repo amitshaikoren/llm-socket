@@ -105,7 +105,7 @@ describe("Anthropic dialect", () => {
     assert.equal(res.status, 200);
     const body = (await res.json()) as { status: string; service: string };
     assert.equal(body.status, "ok");
-    assert.equal(body.service, "claude-socket");
+    assert.equal(body.service, "llm-socket");
   });
 });
 

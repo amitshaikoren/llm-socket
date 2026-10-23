@@ -1,4 +1,4 @@
-# claude-socket
+# llm-socket
 
 **An OpenAI/Anthropic-shaped socket in front of your own Claude Code and Codex installs —
 one that tells you what each tool call in an agent loop actually cost.**
@@ -68,7 +68,7 @@ socket has nothing to show there.
 ```
   OpenAI SDK ─┐
   Cursor    ──┤   http://host:8787/v1        ┌── claude --print --input-format stream-json
-  Open WebUI ─┼──▶ claude-socket ────────────┤   (one long-lived process per conversation)
+  Open WebUI ─┼──▶ llm-socket ────────────┤   (one long-lived process per conversation)
   curl      ──┤    (token auth, SSE, usage)  └── your existing Claude Code auth
   LangChain ──┘
 ```
@@ -77,7 +77,7 @@ socket has nothing to show there.
 <summary><b>curl, and what boot looks like</b></summary>
 
 ```
-claude-socket listening on http://127.0.0.1:8787/v1
+llm-socket listening on http://127.0.0.1:8787/v1
   API key      sk-socket-...          # generated if you did not supply one
   dashboard    http://127.0.0.1:8787/ui
   default      mode=oracle model=claude-sonnet-5

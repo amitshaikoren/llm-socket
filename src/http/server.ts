@@ -201,7 +201,7 @@ async function handle(
     if (path === "/health") {
       sendJson(res, 200, {
         status: "ok",
-        service: "claude-socket",
+        service: "llm-socket",
         sessions: sessions.size,
         rate_limit: sessions.rateLimit(),
       });

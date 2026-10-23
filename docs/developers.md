@@ -467,11 +467,11 @@ Three behaviours worth knowing if you modify the process layer:
 curl -s http://127.0.0.1:8787/health
 ```
 
-`{"status":"ok","service":"claude-socket",...}` means it is up. If the connection is
+`{"status":"ok","service":"llm-socket",...}` means it is up. If the connection is
 refused, start it from the project directory and wait for the banner:
 
 ```bash
-cd D:/projects/claude-socket && npm start
+cd D:/projects/llm-socket && npm start
 ```
 
 It runs in the foreground, so start it in a background shell if you need to keep working.

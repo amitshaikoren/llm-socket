@@ -1,6 +1,6 @@
 # Token accounting
 
-How claude-socket measures what a request cost, and why the numbers look the way they do.
+How llm-socket measures what a request cost, and why the numbers look the way they do.
 Back to the [README](../README.md).
 
 A turn is not one model call. An agentic turn *loops* — ask for a tool, read the result,

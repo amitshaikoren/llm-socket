@@ -39,7 +39,7 @@ function writePromptFile(dir: string, name: string, contents: string): string {
  * so the agent keeps its loop and loses everything not on it.
  */
 export function buildSpawnPlan(cfg: Config, cls: SessionClass, resumeSessionId?: string): SpawnPlan {
-  const scratchDir = mkdtempSync(join(tmpdir(), "claude-socket-"));
+  const scratchDir = mkdtempSync(join(tmpdir(), "llm-socket-"));
   const args: string[] = [
     ...cfg.claude.binaryArgs,
     "--print",

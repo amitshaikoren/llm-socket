@@ -334,7 +334,7 @@ export async function handleChatCompletions(ctx: Ctx): Promise<void> {
       object: "chat.completion",
       created,
       model: advertised,
-      system_fingerprint: sessionId ? `claude-socket-${sessionId.slice(0, 12)}` : undefined,
+      system_fingerprint: sessionId ? `llm-socket-${sessionId.slice(0, 12)}` : undefined,
       choices: [
         {
           index: 0,
